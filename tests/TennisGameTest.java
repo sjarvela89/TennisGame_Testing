@@ -62,6 +62,149 @@ public class TennisGameTest {
 		game.player1Scored();
 		//Act
 		// This statement should cause an exception
-		game.player1Scored();			
-	}		
+		game.player1Scored();
+	}
+	@Test
+	public void testNoNullPoints() throws TennisGameException{
+		//Arrange
+		TennisGame game = new TennisGame();
+		//Act
+		String i = game.getScore();
+		//Assert
+		assertNotNull(i);
+	}
+	@Test
+	public void testPlayer2CanHaveAdvantage()throws TennisGameException{
+		//Arrange
+		TennisGame game = new TennisGame();
+		//Act
+		game.player2Scored();
+		game.player2Scored();
+		game.player2Scored();
+		game.player1Scored();
+		game.player1Scored();
+		game.player1Scored();
+		game.player2Scored();
+		String i = game.getScore();
+		assertSame(i,"player2 has advantage");
+		//This test caused failure. Fixes done into the code.
+	}
+	@Test
+	public void testPlayer2CanWin53()throws TennisGameException{
+		//Arrange
+		TennisGame game = new TennisGame();
+		//Act
+		game.player2Scored();
+		game.player2Scored();
+		game.player2Scored();
+		game.player1Scored();
+		game.player1Scored();
+		game.player1Scored();
+		game.player2Scored();
+		game.player2Scored();
+		String i = game.getScore();
+		assertSame(i,"player2 wins");
+	}
+	@Test
+	public void testPlayersCanPlayLongDeuces()throws TennisGameException{
+		//Arrange
+		TennisGame game = new TennisGame();
+		//Act
+		game.player2Scored();
+		game.player2Scored();
+		game.player2Scored();
+		game.player1Scored();
+		game.player1Scored();
+		game.player1Scored();
+		game.player2Scored();
+		game.player1Scored();
+		game.player2Scored();
+		game.player1Scored();
+		game.player2Scored();
+		game.player1Scored();
+		game.player2Scored();
+		game.player1Scored();
+		game.player2Scored();
+		game.player1Scored();
+		game.player2Scored();
+		game.player1Scored();
+		game.player2Scored();
+		game.player1Scored();
+		game.player2Scored();
+		game.player1Scored();
+		String i = game.getScore();
+		assertSame(i,"deuce");
+	}
+	@Test
+	public void testPlayer1WinsWithCorrectAdvantage()throws TennisGameException{
+		//Arrange
+		TennisGame game = new TennisGame();
+		//Act
+		game.player2Scored();
+		game.player2Scored();
+		game.player2Scored();
+		game.player1Scored();
+		game.player1Scored();
+		game.player1Scored();
+		game.player2Scored();
+		game.player1Scored();
+		game.player1Scored();
+		game.player1Scored();
+		String i = game.getScore();
+		assertSame(i,"player1 wins");
+	}
+	@Test
+	public void testPlayer1StaysLove()throws TennisGameException{
+		//Arrange
+		TennisGame game = new TennisGame();
+		//Act
+		game.player2Scored();
+		String i = game.getScore();
+		System.out.println("PrintOfTheGetScore:"+i);
+		//Assert
+		assertEquals(i,"15 - love");
+		//Act
+		game.player2Scored();
+		i = game.getScore();
+		//Assert
+		assertEquals(i,"30 - love");
+		//Act
+		game.player2Scored();
+		i = game.getScore();
+		//Assert
+		assertEquals(i,"40 - love");
+		//Act
+		game.player2Scored();
+		i = game.getScore();
+		//Assert
+		assertSame(i,"player2 wins");
+		
+	}
+	@Test
+	public void testPlayer2StaysLove()throws TennisGameException{
+		//Arrange
+		TennisGame game = new TennisGame();
+		//Act
+		game.player1Scored();
+		String i = game.getScore();
+		System.out.println("PrintOfTheGetScorePlayer2Love:"+i);
+		//Assert
+		assertEquals(i,"love - 15");
+		//Act
+		game.player1Scored();
+		i = game.getScore();
+		//Assert
+		assertEquals(i,"love - 30");
+		//Act
+		game.player1Scored();
+		i = game.getScore();
+		//Assert
+		assertEquals(i,"love - 40");
+		//Act
+		game.player1Scored();
+		i = game.getScore();
+		//Assert
+		assertSame(i,"player1 wins");
+		
+	}
 }
